@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-
+import movieImg from "../assets/images/movie.jpg";
 export default class MovieItem extends Component {
   render() {
     const movie = this.props.movie;
     return (
-      <div className="border border-gray-200 p-4 bg-white rounded-md shadow mb-4">
-        <div className="flex justify-between mb-10">
+      <div className="border border-gray-200 bg-white rounded-md shadow ">
+        <div className="">
+          <img src={movieImg} alt="" className="h-32 w-full object-cover" />
+        </div>
+
+        <div className="flex justify-between mb-1 p-4 ">
           <div className="flex justify-between w-full">
-            <h2>{movie.title}</h2>
-            <h4 className="font-semibold text-xl">{movie.category}</h4>
+            <h2 className="font-semibold text-lg">{movie.title}</h2>
+            <h4 className="">{movie.category}</h4>
           </div>
           <button
             className="text-red-500"
@@ -22,15 +26,19 @@ export default class MovieItem extends Component {
           </button>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center p-4">
           <div className="flex">
-            <span> Like {movie.likes}</span>
+            <svg height="24" width="24">
+              <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
+              <path d="M9 21h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2zM9 9l4.34-4.34L12 10h9v2l-3 7H9V9zM1 9h4v12H1z" />
+            </svg>
+            <span> {movie.likes}</span>
           </div>
           <div className="flex flex-1">
             {this.props.alreadyLike ? (
               <button
                 onClick={() => this.props.toggleLike(movie)}
-                className="bg-red-600 w-full inline-block mx-5 p-2 rounded text-white flex justify-center"
+                className="bg-red-600 w-full inline-block mx-5 p-1 rounded text-white flex justify-center"
               >
                 <svg height="24" width="24">
                   <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
@@ -40,7 +48,7 @@ export default class MovieItem extends Component {
             ) : (
               <button
                 onClick={() => this.props.toggleLike(movie)}
-                className="bg-green-600 w-full inline-block mx-5 p-2 rounded text-white flex justify-center"
+                className="bg-gray-300 w-full inline-block mx-5 p-1 rounded text-white flex justify-center"
               >
                 <svg height="24" width="24">
                   <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
@@ -50,7 +58,11 @@ export default class MovieItem extends Component {
             )}
           </div>
           <div className="flex">
-            <span> Unlike {movie.dislikes}</span>
+            <svg height="24" width="24">
+              <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
+              <path d="M9 21h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2zM9 9l4.34-4.34L12 10h9v2l-3 7H9V9zM1 9h4v12H1z" />
+            </svg>
+            <span> {movie.dislikes}</span>
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ class Movies extends Component {
   render() {
     const { movies, loading, categories } = this.props;
     return (
-      <div className="min-h-screen bg-gray-200 ">
+      <div className="min-h-screen bg-gray-200 pb-10">
         <div className="mx-4 lg:mx-16">
           <div className="h-32 bg-gray-700 flex justify-center items-center rounded-md">
             <h1 className="text-white text-3xl font-semibold ">
@@ -38,13 +38,13 @@ class Movies extends Component {
 
           <div className="catContainer flex flew-row flex-wrap">
             {categories.map((cat) => (
-              <button className="p-2 bg-white m-2 rounded shadow border">
+              <button className="p-1 bg-white m-2 rounded shadow border">
                 <h1 className="text-sm">{cat}</h1>
               </button>
             ))}
           </div>
 
-          <div className="moviesContainer">
+          <div className="moviesContainer grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
             {loading ? (
               <h1>Chargement ....</h1>
             ) : (
@@ -57,6 +57,15 @@ class Movies extends Component {
                 />
               ))
             )}
+          </div>
+
+          <div className="mt-5">
+            <button className="p-2 bg-gray-500 rounded shadow mr-3 px-5 shadow-lg text-gray-100">
+              Precedent
+            </button>
+            <button className="p-2 bg-gray-500 rounded shadow mr-3 px-5 shadow-lg text-gray-100">
+              Suivant
+            </button>
           </div>
         </div>
       </div>

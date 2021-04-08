@@ -12,9 +12,13 @@ export const getMovies = () => (dispatch) => {
   movies$
     .then((movies) => {
       dispatch({ type: GET_MOVIES, payload: movies });
+
+      let categories = movies.map((movie) => {
+        return movie.category;
+      });
       dispatch({
         type: GET_CATEGORIES,
-        payload: movies.map((movie) => movie.category),
+        payload: Array.from(new Set(categories)),
       });
     })
     .catch((errors) => console.log(errors));
