@@ -6,13 +6,15 @@ import {
   getMovies,
   removeMovie,
   toggleLikeMovie,
+  selectCategory,
 } from "../Redux/actions/getmovies";
 import { connect } from "react-redux";
+import MoviesCategories from "./MoviesCategories";
 
 class Movies extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { value: 12 };
   }
   componentDidMount() {
     this.props.getMovies();
@@ -25,6 +27,12 @@ class Movies extends Component {
   toggleLike = (movie) => {
     this.props.toggleLikeMovie(movie);
   };
+  selectCategory = (cat) => {
+    this.props.selectCategory(cat);
+  };
+  selectChangePagination = (e) => {
+    this.setState({ value: e.target.value });
+  };
   render() {
     const { movies, loading, categories } = this.props;
     return (
@@ -35,13 +43,27 @@ class Movies extends Component {
               Liste des films
             </h1>
           </div>
-
-          <div className="catContainer flex flew-row flex-wrap">
-            {categories.map((cat) => (
-              <button className="p-1 bg-white m-2 rounded shadow border">
-                <h1 className="text-sm">{cat}</h1>
-              </button>
-            ))}
+          <div className="flex justify-between items-center">
+            <MoviesCategories
+              categories={categories}
+              selectCategory={this.selectCategory}
+            />
+            <div className="">
+              {/* {JSON.stringify(this.props.parPage)} */}
+              {JSON.stringify(this.state.value)}
+              <select
+                value={this.state.value}
+                name="parpage"
+                className="w-32 bg-gray-400 text-xl p-1 rounded"
+                onChange={this.selectChangePagination}
+              >
+                {this.props.parPage.map((ele) => (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="moviesContainer grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
@@ -77,9 +99,11 @@ const mapStateToProps = (state) => ({
   movies: state.getmovises.movies,
   loading: state.getmovises.isLoding,
   categories: state.getmovises.categories,
+  parPage: state.getmovises.parPage,
 });
 export default connect(mapStateToProps, {
   getMovies,
   removeMovie,
   toggleLikeMovie,
+  selectCategory,
 })(Movies);

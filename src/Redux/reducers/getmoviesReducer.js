@@ -3,10 +3,17 @@ import {
   GET_MOVIES,
   IS_LOADING,
   REMOVE_MOVIE,
+  SELECT_CATEGORY,
   TOGGLE_LIKE_MOVIE,
 } from "../actions/types";
 
-const initialState = { movies: [], categories: [], isLoding: false };
+const initialState = {
+  movies: [],
+  categories: [],
+  isLoding: false,
+  selectedCategories: [],
+  parPage: [12, 4, 8],
+};
 
 function getmovies(state = initialState, action) {
   switch (action.type) {
@@ -60,6 +67,35 @@ function getmovies(state = initialState, action) {
         };
       }
       return nextStat;
+
+    case SELECT_CATEGORY:
+      const indexCat = state.selectedCategories.findIndex(
+        (cat) => cat === action.payload
+      );
+
+      if (indexCat !== -1) {
+        return {
+          ...state,
+          selectedCategories: [
+            ...state.selectedCategories.filter((cat) => cat !== action.payload),
+          ],
+          movies: [
+            ...state.movies.filter(
+              (movie) => movie.category === action.payload
+            ),
+          ],
+        };
+      } else {
+        return {
+          ...state,
+          selectedCategories: [...state.selectedCategories, action.payload],
+          movies: [
+            ...state.movies.filter(
+              (movie) => movie.category === action.payload
+            ),
+          ],
+        };
+      }
 
     default:
       return state;

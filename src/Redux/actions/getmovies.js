@@ -3,6 +3,7 @@ import {
   GET_MOVIES,
   IS_LOADING,
   REMOVE_MOVIE,
+  SELECT_CATEGORY,
   TOGGLE_LIKE_MOVIE,
 } from "./types";
 import { movies$ } from "../../API/movies";
@@ -34,4 +35,8 @@ export const removeMovie = (movie) => {
 
 export const toggleLikeMovie = (movie) => {
   return { type: TOGGLE_LIKE_MOVIE, payload: movie };
+};
+
+export const selectCategory = (cat) => {
+  return { type: SELECT_CATEGORY, payload: cat };
 };
