@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 class MoviesCategories extends Component {
   activeClass = (categorie) => {
-    return this.props.selectedCategories.includes(categorie)
+    return this.props.selectedCategories === categorie
       ? " bg-red-800 text-white"
       : " bg-white text-red-800";
   };
@@ -15,7 +15,7 @@ class MoviesCategories extends Component {
           <button
             key={cat}
             className={
-              "p-1 m-2 rounded  border-red-800 border focus:outline-none focus:ring ring-red-500 ring-opacity-50" +
+              "p-1 m-2 rounded  border-red-800 border focus:outline-none focus:ring ring-red-500 ring-opacity-50 shadow-md" +
               this.activeClass(cat)
             }
             onClick={() => this.props.selectCategory(cat)}

@@ -56,23 +56,21 @@ export const paginate = (data) => (dispatch) => {
 };
 
 export const selectCategory = (cat) => (dispatch) => {
-  // ...state.movies.filter(
-  //         (movie) => movie.category === action.payload
-  //     ),
-
   dispatch(setIsLoading());
   movies$
     .then((movies) => {
-      dispatch({ type: GET_MOVIES, payload: movies });
+      const allMovies = movies.map((m) => {
+        return { ...m, likeActive: 0, dislikeActive: 0 };
+      });
+      dispatch({ type: GET_MOVIES, payload: allMovies });
       dispatch({ type: SELECT_CATEGORY, payload: cat });
-
-      // let categories = newmovies.map((movie) => {
-      //     return movie.category;
-      // });
-      // dispatch({
-      //     type: GET_CATEGORIES,
-      //     payload: Array.from(new Set(categories)),
-      // });
+      let categories = movies.map((movie) => {
+        return movie.category;
+      });
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: Array.from(new Set(categories)),
+      });
     })
     .catch((errors) => console.log(errors));
 };

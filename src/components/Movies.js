@@ -47,17 +47,17 @@ class Movies extends Component {
     const { movies, loading, categories } = this.props;
 
     return (
-      <div className="mx-4 lg:mx-16   pt-5">
+      <div className="mx-4 lg:mx-16  pt-5">
         <div className="">
           <div className="flex justify-center items-center rounded-md overflow-hidden bg-gradient-to-t from-red-600 via-red-800 to-red-900">
-            <div className="flex">
-              <div className="flex w-1/2 justify-center items-center h-auto">
-                <h1 className="text-white text-3xl font-semibold uppercase">
+            <div className="flex flex-col lg:flex-row">
+              <div className="flex lg:w-1/2 justify-center items-center h-auto">
+                <h1 className="text-white text-5xl font-semibold uppercase">
                   Liste des films
                 </h1>
               </div>
 
-              <div className="w-1/2">
+              <div className="lg:w-1/2">
                 <img
                   src={movieImg}
                   alt=""
@@ -67,7 +67,7 @@ class Movies extends Component {
             </div>
           </div>
 
-          <div className="flex justify-between items-center flex-wrap bg-white my-3 rounded shadow">
+          <div className="flex justify-between items-center flex-wrap bg-white my-3 rounded-md  shadow">
             <MoviesCategories
               categories={categories}
               selectCategory={this.selectCategory}
@@ -92,7 +92,15 @@ class Movies extends Component {
 
           <div className="moviesContainer grid gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
             {loading ? (
-              <h1>Chargement ....</h1>
+              <div className="h-screen fixed  bg-gray-900 bg-opacity-75 inset-0 flex flex-col justify-center items-center transition duration-300">
+                <div className="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+                <h1 className="text-white">Chargement...</h1>
+              </div>
             ) : (
               movies.map((movie) => (
                 <MovieItem

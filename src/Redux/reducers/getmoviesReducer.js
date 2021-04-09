@@ -13,7 +13,7 @@ const initialState = {
   movies: [],
   categories: [],
   isLoding: false,
-  selectedCategories: [],
+  selectedCategories: {},
   parPage: [3, 4, 5, 8],
 };
 
@@ -117,27 +117,16 @@ function getmovies(state = initialState, action) {
       return nextStat2;
 
     case SELECT_CATEGORY:
-      //index de  la catégorie  dans la liste
-      const indexCat = state.selectedCategories.findIndex(
-        (cat) => cat === action.payload
-      );
-      //Si la catégorie n' existe dans la liste
-      if (indexCat !== -1) {
+      if (action.payload === state.selectedCategories) {
         return {
           ...state,
-          selectedCategories: [
-            ...state.selectedCategories.filter((cat) => cat !== action.payload),
-          ],
-          movies: [
-            ...state.movies.filter((m) =>
-              state.selectedCategories.includes(m.category)
-            ),
-          ],
+          selectedCategories: {},
+          movies: [...state.movies],
         };
       } else {
         return {
           ...state,
-          selectedCategories: [...state.selectedCategories, action.payload],
+          selectedCategories: action.payload,
           movies: [
             ...state.movies.filter((m) => m.category === action.payload),
           ],
