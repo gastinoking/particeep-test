@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 import MovieItem from "./MovieItem";
+
 import {
   getMovies,
   removeMovie,
@@ -13,6 +14,7 @@ import {
 import { connect } from "react-redux";
 import MoviesCategories from "./MoviesCategories";
 import MoviesPagination from "./MoviesPagination";
+import movieImg from "../assets/images/img.jpg";
 
 class Movies extends Component {
   constructor(props) {
@@ -45,14 +47,27 @@ class Movies extends Component {
     const { movies, loading, categories } = this.props;
 
     return (
-      <div className="min-h-screen bg-gray-200 pb-10 text-gray-700">
-        <div className="mx-4 lg:mx-16">
-          <div className="h-32 bg-gray-700 flex justify-center items-center rounded-md">
-            <h1 className="text-white text-3xl font-semibold ">
-              Liste des films
-            </h1>
+      <div className="mx-4 lg:mx-16   pt-5">
+        <div className="">
+          <div className="flex justify-center items-center rounded-md overflow-hidden bg-gradient-to-t from-red-600 via-red-800 to-red-900">
+            <div className="flex">
+              <div className="flex w-1/2 justify-center items-center h-auto">
+                <h1 className="text-white text-3xl font-semibold uppercase">
+                  Liste des films
+                </h1>
+              </div>
+
+              <div className="w-1/2">
+                <img
+                  src={movieImg}
+                  alt=""
+                  className="h-64 w-full object-cover"
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex justify-between items-center">
+
+          <div className="flex justify-between items-center flex-wrap bg-white my-3 rounded shadow">
             <MoviesCategories
               categories={categories}
               selectCategory={this.selectCategory}
@@ -63,7 +78,7 @@ class Movies extends Component {
               <select
                 value={this.state.value}
                 name="parpage"
-                className="w-32 bg-gray-400 text-xl p-1 rounded"
+                className="w-32 bg-gray-200 text-xl p-1 rounded mr-3"
                 onChange={(e) => this.setState({ pageLimit: e.target.value })}
               >
                 {this.props.parPage.map((ele) => (
@@ -75,7 +90,7 @@ class Movies extends Component {
             </div>
           </div>
 
-          <div className="moviesContainer grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
+          <div className="moviesContainer grid gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
             {loading ? (
               <h1>Chargement ....</h1>
             ) : (

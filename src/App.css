@@ -1,1 +1,17 @@
- 
+.course-item-enter {
+  opacity: 0.01;
+}
+
+.course-item-enter.course-item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.course-item-leave {
+  opacity: 1;
+}
+
+.course-item-leave.course-item-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
