@@ -36,7 +36,7 @@ class Movies extends Component {
   render() {
     const { movies, loading, categories } = this.props;
     return (
-      <div className="min-h-screen bg-gray-200 pb-10">
+      <div className="min-h-screen bg-gray-200 pb-10 text-gray-700">
         <div className="mx-4 lg:mx-16">
           <div className="h-32 bg-gray-700 flex justify-center items-center rounded-md">
             <h1 className="text-white text-3xl font-semibold ">

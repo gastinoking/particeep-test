@@ -34,11 +34,18 @@ function getmovies(state = initialState, action) {
         categories: action.payload,
       };
     case REMOVE_MOVIE:
-      console.log("REMOVE_MOVIE", action.payload.id);
+      let  newCats ;
+      //Movies sans le film à supprimer
+      const currentMovies = state.movies.filter((item) => action.payload.id !== item.id)
+      //categories restant
+      const restcatAfterRemove = currentMovies.filter(c=>c.category===action.payload.category).length
+        //cat
+      newCats = restcatAfterRemove===0 ? state.categories.filter(c=>c!==action.payload.category) : state.categories
 
       return {
         ...state,
-        movies: state.movies.filter((item) => action.payload.id !== item.id),
+        movies:currentMovies ,
+        categories:newCats
       };
 
     case TOGGLE_LIKE_MOVIE:
@@ -57,6 +64,7 @@ function getmovies(state = initialState, action) {
         };
       } else {
         // newMovie = { ...action.payload, ...{ alreadyLike: 0 } };
+
         nextStat = {
           ...state,
           movies: state.find((item) => {
@@ -69,30 +77,28 @@ function getmovies(state = initialState, action) {
       return nextStat;
 
     case SELECT_CATEGORY:
-      const indexCat = state.selectedCategories.findIndex(
-        (cat) => cat === action.payload
-      );
-
+      //index de  la catégorie  dans la liste
+      const indexCat = state.selectedCategories.findIndex( cat=> cat === action.payload);
+      //Si la catégorie n' existe dans la liste
       if (indexCat !== -1) {
+
         return {
           ...state,
           selectedCategories: [
             ...state.selectedCategories.filter((cat) => cat !== action.payload),
           ],
           movies: [
-            ...state.movies.filter(
-              (movie) => movie.category === action.payload
-            ),
+              ...state.movies.filter(m=>state.selectedCategories.includes(m.category)),
+
           ],
         };
       } else {
+
         return {
           ...state,
           selectedCategories: [...state.selectedCategories, action.payload],
           movies: [
-            ...state.movies.filter(
-              (movie) => movie.category === action.payload
-            ),
+            ...state.movies.filter(m=>m.category===action.payload),
           ],
         };
       }
