@@ -2,9 +2,11 @@ import {
   GET_CATEGORIES,
   GET_MOVIES,
   IS_LOADING,
+  PAGINATE_MOVIES,
   REMOVE_MOVIE,
   SELECT_CATEGORY,
   TOGGLE_LIKE_MOVIE,
+  TOGGLE_DISLIKE_MOVIE,
 } from "../actions/types";
 
 const initialState = {
@@ -12,7 +14,7 @@ const initialState = {
   categories: [],
   isLoding: false,
   selectedCategories: [],
-  parPage: [12, 4, 8],
+  parPage: [3, 4, 5, 8],
 };
 
 function getmovies(state = initialState, action) {
@@ -34,74 +36,124 @@ function getmovies(state = initialState, action) {
         categories: action.payload,
       };
     case REMOVE_MOVIE:
-      let  newCats ;
+      let newCats;
       //Movies sans le film à supprimer
-      const currentMovies = state.movies.filter((item) => action.payload.id !== item.id)
+      const currentMovies = state.movies.filter(
+        (item) => action.payload.id !== item.id
+      );
       //categories restant
-      const restcatAfterRemove = currentMovies.filter(c=>c.category===action.payload.category).length
-        //cat
-      newCats = restcatAfterRemove===0 ? state.categories.filter(c=>c!==action.payload.category) : state.categories
+      const restcatAfterRemove = currentMovies.filter(
+        (c) => c.category === action.payload.category
+      ).length;
+      //cat
+      newCats =
+        restcatAfterRemove === 0
+          ? state.categories.filter((c) => c !== action.payload.category)
+          : state.categories;
 
       return {
         ...state,
-        movies:currentMovies ,
-        categories:newCats
+        movies: currentMovies,
+        categories: newCats,
       };
 
     case TOGGLE_LIKE_MOVIE:
-      let nextStat;
       console.log("TOGGLE_LIKE_MOVIE");
-      let newMovie = {};
-      if (action.payload.alreadyLike) {
-        // newMovie = { ...action.payload, ...{ alreadyLike: 0 } };
-        nextStat = {
-          ...state,
-          movies: state.find((item) => {
-            if (item.id === action.payload.id) {
-              item.alreadyLike = 1;
-            }
-          }),
-        };
-      } else {
-        // newMovie = { ...action.payload, ...{ alreadyLike: 0 } };
 
-        nextStat = {
-          ...state,
-          movies: state.find((item) => {
-            if (item.id === action.payload.id) {
-              item.alreadyLike = 0;
+      const nextStat = {
+        ...state,
+        movies: [
+          ...state.movies.map((e) => {
+            if (e.id === action.payload.id) {
+              if (e.dislikeActive === 1) {
+                e.dislikeActive = 0;
+                e.dislikes = parseInt(e.dislikes) - 1;
+              }
+
+              if (e.likeActive === 0) {
+                e.likeActive = 1;
+                e.likes = parseInt(e.likes) + 1;
+              } else {
+                e.likeActive = 0;
+                e.likes = parseInt(e.likes) - 1;
+              }
             }
+
+            return e;
           }),
-        };
-      }
+        ],
+      };
+
       return nextStat;
+
+    case TOGGLE_DISLIKE_MOVIE:
+      console.log("TOGGLE_DISLIKE_MOVIE");
+
+      const nextStat2 = {
+        ...state,
+
+        movies: [
+          ...state.movies.map((e) => {
+            if (e.id === action.payload.id) {
+              if (e.likeActive === 1) {
+                e.likeActive = 0;
+                e.likes = parseInt(e.likes) - 1;
+              }
+
+              if (e.dislikeActive === 0) {
+                e.dislikeActive = 1;
+                e.dislikes = parseInt(e.dislikes) + 1;
+              } else {
+                e.dislikeActive = 0;
+                e.dislikes = parseInt(e.dislikes) - 1;
+              }
+            }
+
+            return e;
+          }),
+        ],
+      };
+
+      return nextStat2;
 
     case SELECT_CATEGORY:
       //index de  la catégorie  dans la liste
-      const indexCat = state.selectedCategories.findIndex( cat=> cat === action.payload);
+      const indexCat = state.selectedCategories.findIndex(
+        (cat) => cat === action.payload
+      );
       //Si la catégorie n' existe dans la liste
       if (indexCat !== -1) {
-
         return {
           ...state,
           selectedCategories: [
             ...state.selectedCategories.filter((cat) => cat !== action.payload),
           ],
           movies: [
-              ...state.movies.filter(m=>state.selectedCategories.includes(m.category)),
-
+            ...state.movies.filter((m) =>
+              state.selectedCategories.includes(m.category)
+            ),
           ],
         };
       } else {
-
         return {
           ...state,
           selectedCategories: [...state.selectedCategories, action.payload],
           movies: [
-            ...state.movies.filter(m=>m.category===action.payload),
+            ...state.movies.filter((m) => m.category === action.payload),
           ],
         };
       }
+
+    case PAGINATE_MOVIES:
+      let newState = state.movies.slice(
+        (action.payload.page_number - 1) * action.payload.page_size,
+        action.payload.page_number * action.payload.page_size
+      );
+      console.log(action.payload.page_number - 1, action.payload.page_size);
+      return {
+        ...state,
+        movies: [...newState],
+      };
 
     default:
       return state;

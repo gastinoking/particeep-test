@@ -7,18 +7,20 @@ import {
   removeMovie,
   toggleLikeMovie,
   selectCategory,
+  paginate,
+  toggleDisLikeMovie,
 } from "../Redux/actions/getmovies";
 import { connect } from "react-redux";
 import MoviesCategories from "./MoviesCategories";
+import MoviesPagination from "./MoviesPagination";
 
 class Movies extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: 12 };
+    this.state = { pageLimit: 3 };
   }
   componentDidMount() {
     this.props.getMovies();
-    console.log("didUp", this.props);
   }
   componentDidUpdate() {}
   remove = (movie) => {
@@ -27,14 +29,21 @@ class Movies extends Component {
   toggleLike = (movie) => {
     this.props.toggleLikeMovie(movie);
   };
+
+  toggleDisLike = (movie) => {
+    this.props.toggleDisLikeMovie(movie);
+  };
   selectCategory = (cat) => {
     this.props.selectCategory(cat);
   };
-  selectChangePagination = (e) => {
-    this.setState({ value: e.target.value });
+
+  onChangePage = (data) => {
+    this.props.paginate(data);
   };
+
   render() {
     const { movies, loading, categories } = this.props;
+
     return (
       <div className="min-h-screen bg-gray-200 pb-10 text-gray-700">
         <div className="mx-4 lg:mx-16">
@@ -55,7 +64,7 @@ class Movies extends Component {
                 value={this.state.value}
                 name="parpage"
                 className="w-32 bg-gray-400 text-xl p-1 rounded"
-                onChange={this.selectChangePagination}
+                onChange={(e) => this.setState({ pageLimit: e.target.value })}
               >
                 {this.props.parPage.map((ele) => (
                   <option key={ele} value={ele}>
@@ -76,19 +85,19 @@ class Movies extends Component {
                   key={movie.id.toString()}
                   remove={this.remove}
                   toggleLike={this.toggleLike}
+                  toggleDisLike={this.toggleDisLike}
                 />
               ))
             )}
           </div>
 
-          <div className="mt-5">
-            <button className="p-2 bg-gray-500 rounded shadow mr-3 px-5 shadow-lg text-gray-100">
-              Precedent
-            </button>
-            <button className="p-2 bg-gray-500 rounded shadow mr-3 px-5 shadow-lg text-gray-100">
-              Suivant
-            </button>
-          </div>
+          <MoviesPagination
+            totalRecords={movies.length}
+            initialPage={1}
+            pagesToshow={2}
+            pageLimit={this.state.pageLimit || 3}
+            onChangePage={this.onChangePage}
+          />
         </div>
       </div>
     );
@@ -105,5 +114,7 @@ export default connect(mapStateToProps, {
   getMovies,
   removeMovie,
   toggleLikeMovie,
+  toggleDisLikeMovie,
   selectCategory,
+  paginate,
 })(Movies);
