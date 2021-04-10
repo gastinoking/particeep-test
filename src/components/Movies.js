@@ -52,7 +52,7 @@ class Movies extends Component {
           <div className="flex justify-center items-center rounded-md overflow-hidden bg-gradient-to-t from-red-600 via-red-800 to-red-900">
             <div className="flex flex-col lg:flex-row">
               <div className="flex lg:w-1/2 justify-center items-center h-auto">
-                <h1 className="text-white text-5xl font-semibold uppercase">
+                <h1 className="text-white text-5xl font-semibold uppercase tracking-wider">
                   Liste des films
                 </h1>
               </div>
@@ -90,7 +90,7 @@ class Movies extends Component {
             </div>
           </div>
 
-          <div className="moviesContainer grid gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+          <div className="moviesContainer grid gap-4 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
             {loading ? (
               <div className="h-screen fixed  bg-gray-900 bg-opacity-75 inset-0 flex flex-col justify-center items-center transition duration-300">
                 <div className="lds-ring">
@@ -118,7 +118,7 @@ class Movies extends Component {
             totalRecords={movies.length}
             initialPage={1}
             pagesToshow={2}
-            pageLimit={this.state.pageLimit || 3}
+            pageLimit={parseInt(this.state.pageLimit) || 3}
             onChangePage={this.onChangePage}
           />
         </div>

@@ -41,7 +41,7 @@ export default class MovieItem extends Component {
           </div>
         </div>
 
-        <div className="flex justify-start items-center p-4">
+        <div className="flex justify-between items-center p-4">
           <div className="flex  justify-start items-center">
             <button
               onClick={() => this.props.toggleLike(movie)}
@@ -60,7 +60,7 @@ export default class MovieItem extends Component {
             <span className="text-sm"> {movie.likes}</span>
           </div>
 
-          <div className="flex ml-3 justify-end items-center relative">
+          <div className="flex ml-3 justify-between items-center">
             <div className="flex">
               <button
                 onClick={() => this.props.toggleDisLike(movie)}
@@ -81,7 +81,7 @@ export default class MovieItem extends Component {
             <div className="flex">
               <button
                 title="supprimer"
-                className="text-red-900  focus:outline-none     bg-gray-300 rounded-full p-1 shadow bg-opacity-75 transition duration-200 transform  hover:scale-125"
+                className="text-red-900  focus:outline-none ml-10 bg-gray-300 rounded-full p-1 shadow bg-opacity-75 transition duration-200 transform  hover:scale-125"
                 onClick={() => this.props.remove(movie)}
               >
                 <svg

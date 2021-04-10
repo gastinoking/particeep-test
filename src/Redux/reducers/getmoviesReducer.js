@@ -138,10 +138,9 @@ function getmovies(state = initialState, action) {
         (action.payload.page_number - 1) * action.payload.page_size,
         action.payload.page_number * action.payload.page_size
       );
-      console.log(action.payload.page_number - 1, action.payload.page_size);
       return {
         ...state,
-        movies: [...newState],
+        movies: newState,
       };
 
     default:

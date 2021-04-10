@@ -23,19 +23,23 @@ export default class MoviesPagination extends Component {
   }
 
   nexPage() {
-    this.getPager();
-    const totalPage = Math.ceil(this.props.totalRecords / this.props.pageLimit);
+    this.setState({
+      totalPage: Math.ceil(this.props.totalRecords / this.props.pageLimit),
+    });
 
     this.setState({
       currentPage:
-        this.state.currentPage >= totalPage ? 1 : this.state.currentPage + 1,
+        this.state.currentPage >= this.state.totalPage
+          ? 1
+          : this.state.currentPage + 1,
     });
+    this.getPager();
   }
   priviousePage() {
-    this.getPager();
     this.setState({
       currentPage: this.state.currentPage > 1 ? this.state.currentPage - 1 : 1,
     });
+    this.getPager();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,18 +51,14 @@ export default class MoviesPagination extends Component {
     });
   }
   getPager() {
-    const totalPages = Math.ceil(
-      this.props.totalRecords / this.props.pageLimit
-    );
     this.props.onChangePage({
       page_number: this.state.currentPage,
-      page_size: totalPages,
+      page_size: this.state.totalPages,
     });
   }
 
   componentDidUpdate(prevProps, prevState) {}
   render() {
-    // if (!this.state.totalRecords || this.state.totalPage === 1) return null;
     return (
       <div>
         <ul className="mt-5 flex">
