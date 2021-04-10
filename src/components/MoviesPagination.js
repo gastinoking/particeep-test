@@ -71,9 +71,7 @@ export default class MoviesPagination extends Component {
               Precedent
             </button>
           </li>
-          {this.state.currentPage}
-          <br />
-          pageLimit: {this.state.pageLimit}
+
           <li>
             <button
               disabled={
@@ -83,7 +81,7 @@ export default class MoviesPagination extends Component {
               onClick={() => this.nexPage()}
               className="p-2 bg-gray-500 rounded shadow mr-3 px-5 shadow-lg text-gray-100"
             >
-              Suivants
+              Suivant
             </button>
           </li>
         </ul>
