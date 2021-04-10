@@ -7,7 +7,6 @@ export default class MoviesPagination extends Component {
       totalRecords: "",
       totalPage: "",
       currentPage: "",
-      pagesToshow: "",
       pageLimit: 2,
     };
   }
@@ -16,7 +15,6 @@ export default class MoviesPagination extends Component {
     this.setState({
       totalRecords: this.props.totalRecords,
       pageLimit: this.props.pageLimit,
-      pagesToshow: this.props.pagesToshow || 5,
       totalPage: Math.ceil(this.props.totalRecords / this.props.pageLimit),
       currentPage: this.props.initialPage || 1,
     });
@@ -52,7 +50,8 @@ export default class MoviesPagination extends Component {
   }
   getPager() {
     this.props.onChangePage({
-      page_number: this.state.currentPage,
+      pageLimit: this.state.pageLimit,
+      currentPage: this.state.currentPage,
       page_size: this.state.totalPages,
     });
   }
@@ -71,7 +70,7 @@ export default class MoviesPagination extends Component {
               Precedent
             </button>
           </li>
-
+          {this.state.currentPage}
           <li>
             <button
               disabled={

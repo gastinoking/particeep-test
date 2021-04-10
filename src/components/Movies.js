@@ -115,9 +115,8 @@ class Movies extends Component {
           </div>
 
           <MoviesPagination
-            totalRecords={movies.length}
+            totalRecords={this.props.totalMovies}
             initialPage={1}
-            pagesToshow={2}
             pageLimit={parseInt(this.state.pageLimit) || 3}
             onChangePage={this.onChangePage}
           />
@@ -129,6 +128,7 @@ class Movies extends Component {
 
 const mapStateToProps = (state) => ({
   movies: state.getmovises.movies,
+  totalMovies: state.getmovises.totalMovies,
   loading: state.getmovises.isLoding,
   categories: state.getmovises.categories,
   parPage: state.getmovises.parPage,

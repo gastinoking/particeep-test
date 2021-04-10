@@ -15,6 +15,7 @@ const initialState = {
   isLoding: false,
   selectedCategories: {},
   parPage: [3, 4, 5, 8],
+  totalMovies: 0,
 };
 
 function getmovies(state = initialState, action) {
@@ -28,6 +29,7 @@ function getmovies(state = initialState, action) {
       return {
         ...state,
         movies: action.payload,
+        totalMovies: action.payload.length,
         isLoding: false,
       };
     case GET_CATEGORIES:
@@ -134,10 +136,11 @@ function getmovies(state = initialState, action) {
       }
 
     case PAGINATE_MOVIES:
-      let newState = state.movies.slice(
-        (action.payload.page_number - 1) * action.payload.page_size,
-        action.payload.page_number * action.payload.page_size
-      );
+      const indexOfLastPage =
+        action.payload.currentPage * action.payload.pageLimit;
+      const indexOfFirstPage = indexOfLastPage - action.payload.pageLimit;
+      console.log(indexOfFirstPage, indexOfLastPage);
+      let newState = state.movies.slice(indexOfFirstPage, indexOfLastPage);
       return {
         ...state,
         movies: newState,

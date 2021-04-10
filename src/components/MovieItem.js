@@ -15,7 +15,7 @@ export default class MovieItem extends Component {
     return (
       <div className="border border-gray-200 bg-white rounded-md shadow-md overflow-hidden transition duration-300 card-movie">
         <div className="relative overflow-hidden">
-          <img src={movieImg} alt="" className="h-64 w-full object-cover" />
+          <img src={movieImg} alt="" className="h-40 w-full object-cover" />
 
           <h4 className="absolute bottom-0 right-0 bg-red-700 text-sm text-white px-2 rounded-tl shadow ">
             {movie.category}
